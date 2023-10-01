@@ -7,10 +7,7 @@ import (
 
 func main() {
 
-	var options int
-	var number int
-	var payment float64
-	var reference string
+	var menu int
 	fmt.Println("Input short code (*170#)")
 	fmt.Println("1) Transfer Money")
 	fmt.Println("2) MoMoPay & Pay Bill")
@@ -21,9 +18,15 @@ func main() {
 	fmt.Println("7) MoMo Promo")
 
 	fmt.Print("Enter options: ")
-	fmt.Scanln(&options)
+	fmt.Scanln(&menu)
 
-	switch options {
+	var number int
+	var payment float64
+	var reference string
+	var option int
+
+	switch option {
+		
 
 	case 1:
 		fmt.Println("Transfer Money")
@@ -35,60 +38,62 @@ func main() {
 		fmt.Println("6) Bank Account")
 		fmt.Println("0) Back")
 
-		var TransferMoney int
+		var transferMoney int
 
 		fmt.Print("Enter option: ")
-		_, err := fmt.Scanln(&TransferMoney)
+		_, err := fmt.Scanln(&transferMoney)
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
-		// transfering money to momo user
-		if TransferMoney == 1 {
 
-			fmt.Print("Enter mobile number(10 digits): ")
-			_, err := fmt.Scanln(&number)
-			if err != nil || len(fmt.Sprint(&number)) != 10 {
-				fmt.Println("Invalid mobile number.")
+if transferMoney == 1 {
+	// var number int
+	// var payment float64
+	// var reference string
+	
 
-				fmt.Println("Confirm number: ")
-				fmt.Scan(&number)
-			}
+	fmt.Print("Enter mobile number: ")
+	fmt.Scanln(&number)
 
-			fmt.Println("Enter amount: ")
-			fmt.Scan(&payment)
+	fmt.Print("Confirm number: ")
+	fmt.Scan(&number)
 
-			//formula for current balance in the math formula folder/file
-			// func CurrentBalance(availablebal float64, payment float64) (float64, error) {
-			// 	if payment > availablebal {
-			// 		return 0, fmt.Errorf("insufficient balance")
 
-			// 	}
+	fmt.Print("Enter amount: ")
+	fmt.Scan(&payment)
 
-			// 	current_bal := availablebal - payment
+currentbalance, err := mathformula.CurrentBalance(3000.10, payment)
+if err!= nil {
+	fmt.Println(err)
 
-			// 	return current_bal, nil
-			currentBalance, err := mathformula.CurrentBalance(3000.10, payment)
-			if err != nil || payment <= 0 {
-				fmt.Println("Invalid amount.")
+}
+fmt.Println("Your current balance is:", currentbalance)
 
-				if payment > currentBalance {
-					fmt.Println("Insufficient balance.")
-				}
-			}
 
-			fmt.Println("Enter reference: ")
-			fmt.Scan(&reference)
-			//initializing transfer
-			//currentBalance -= payment
-			fmt.Println("Your current balance is:", currentBalance)
 
-			fmt.Println("Payment for GHS", payment, "to", number, "Current Balance: ", currentBalance, "Reference:", reference)
-			return
+	fmt. Print("Enter reference: ")
+	fmt.Scanln(&reference)
 
-		} else if TransferMoney == 2 {
+	fmt.Println("Payment for GHS", payment ,"to", number, "Current Balance: ", currentbalance, "Reference:", reference)
 
-		}
+
+	
+	if number > 10 {
+	 fmt.Errorf("input number cannot be more than ten(10)")
+
+		
+	}
+return 
+
+
+
+
+} else if transferMoney == 2 {
+
+}
+
+
 
 	case 2:
 		fmt.Println("MoMoPay & Pay Bill")
@@ -96,6 +101,8 @@ func main() {
 		fmt.Println("2) Pay Bill")
 		fmt.Println("3) GhQR")
 		fmt.Println("0) Back")
+		
+
 
 	case 3:
 		fmt.Println("Airtime & Bundles")
@@ -105,6 +112,7 @@ func main() {
 		fmt.Println("4) Schedule Airtime")
 		fmt.Println("5) Just4U")
 		fmt.Println("0) Back")
+
 
 	case 4:
 		fmt.Println("Allow Cash Out")
@@ -132,6 +140,7 @@ func main() {
 		fmt.Println("6) Bank Account")
 		fmt.Println("0) Back")
 
+
 	case 7:
 		fmt.Println("MoMo Promo")
 		fmt.Println("1) Check Promo Points")
@@ -145,10 +154,11 @@ func main() {
 			return
 		}
 
-		if MomoPromo == 1 {
-			fmt.Print("Yello, you have 0 points in the MoMo Promo. Use the MoMO App wallet to make payments to Merchant IDs and QR Codes to earn points")
+if MomoPromo == 1 {
+	fmt.Print("Yello, you have 0 points in the MoMo Promo. Use the MoMO App wallet to make payments to Merchant IDs and QR Codes to earn points")
 
-			return
-		}
-	}
-}
+
+return
+} } } 
+
+
