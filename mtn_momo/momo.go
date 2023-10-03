@@ -6,9 +6,10 @@ import (
 )
 
 func main() {
-
+	// Variable declarations
 	var options int
-	var number int
+	var number string
+	var confirmed string
 	var payment float64
 	var reference string
 	fmt.Println("Input short code (*170#)")
@@ -21,11 +22,12 @@ func main() {
 	fmt.Println("7) MoMo Promo")
 
 	fmt.Print("Enter options: ")
-	fmt.Scanln(&options)
+	fmt.Scan(&options)
 
 	switch options {
 
 	case 1:
+		// Transfer Money option
 		fmt.Println("Transfer Money")
 		fmt.Println("1) MoMo User")
 		fmt.Println("2) Non MoMo User")
@@ -35,30 +37,44 @@ func main() {
 		fmt.Println("6) Bank Account")
 		fmt.Println("0) Back")
 
-		var TransferMoney int
-
 		fmt.Print("Enter option: ")
-		_, err := fmt.Scanln(&TransferMoney)
+		_, err := fmt.Scan(&options)
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
 		// transfering money to momo user
-		if TransferMoney == 1 {
+		if options == 1 {
 
+			
 			fmt.Print("Enter mobile number(10 digits): ")
-			_, err := fmt.Scanln(&number)
-			if err != nil || len(fmt.Sprint(&number)) != 10 {
+			_, err := fmt.Scan(&number)
+			if err != nil || len(number) != 10 {
 				fmt.Println("Invalid mobile number.")
-
-				fmt.Println("Confirm number: ")
-				fmt.Scan(&number)
+				return
+				
+			
 			}
+				fmt.Print("Confirm number: ")
+				_, err = fmt.Scan(&confirmed)
+				if err != nil {
+					fmt.Println(err)
+				}
+			
+
+
+				// Mobile number must be same as confirmed number
+				if number != confirmed {
+					fmt.Println("Number mismatched")
+
+				}
+
+			
 
 			fmt.Println("Enter amount: ")
 			fmt.Scan(&payment)
 
-			//formula for current balance in the math formula folder/file
+			//Formula for current balance in the math formula folder/file
 			// func CurrentBalance(availablebal float64, payment float64) (float64, error) {
 			// 	if payment > availablebal {
 			// 		return 0, fmt.Errorf("insufficient balance")
@@ -83,14 +99,15 @@ func main() {
 			//currentBalance -= payment
 			fmt.Println("Your current balance is:", currentBalance)
 
-			fmt.Println("Payment for GHS", payment, "to", number, "Current Balance: ", currentBalance, "Reference:", reference)
+			fmt.Println("Payment for GHS", payment, "to", number, "Current Balance:", currentBalance, "Reference:", reference)
 			return
 
-		} else if TransferMoney == 2 {
+			//} else if options == 2 {
 
 		}
 
 	case 2:
+		//	MoMoPay & Pay Bill option
 		fmt.Println("MoMoPay & Pay Bill")
 		fmt.Println("1) MoMoPay")
 		fmt.Println("2) Pay Bill")
@@ -151,4 +168,5 @@ func main() {
 			return
 		}
 	}
+
 }
