@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"margpak/mathformula"
+	//"margpak/mathformula"
 	"math/rand"
 )
 
@@ -12,10 +12,11 @@ func main() {
 	var number string
 	var confirmed string
 	var payment float64
+	var availableBalance float64 = 4000.00
 	var reference string
-	var availableBalance float64
 	//var names string
 	//var transctionId rand.Intn
+
 	fmt.Println("Input short code (*170#)")
 	fmt.Println("1) Transfer Money")
 	fmt.Println("2) MoMoPay & Pay Bill")
@@ -47,39 +48,44 @@ func main() {
 			fmt.Println(err)
 			return
 		}
-		// transfering money to momo user
+		// Transfer money to MoMo user
 		if options == 1 {
-
 			fmt.Print("Enter mobile number(10 digits): ")
 			_, err := fmt.Scan(&number)
 			if err != nil || len(number) != 10 {
 				fmt.Println("Invalid mobile number.")
 				return
 			}
+
 			fmt.Print("Confirm number: ")
 			_, err = fmt.Scan(&confirmed)
 			if err != nil {
 				fmt.Println(err)
+				return
 			}
-			// Mobile number must be same as confirmed number
+
+			// Check if confirmed number matches the entered mobile number
 			if number != confirmed {
 				fmt.Println("Number mismatched, try again.")
 				return
 			}
 
-			//names = Kofi, Ama, 
-
 			fmt.Println("Enter amount: ")
+			//currentBalance, err := mathformula.CurrentBalance(availableBalance, payment)
 			fmt.Scan(&payment)
 			if err != nil || payment <= 0 {
-			fmt.Println("Invalid amount.")
-			return
+				fmt.Println("Invalid amount.")
+				return
 			}
 
+			// Check if payment exceeds available balance
 			if payment > availableBalance {
-			fmt.Println("Insufficient balance")
-			return
+				fmt.Println("Insufficient balance")
+				return
 			}
+			// Deduct payment from available balance to know current balance
+			currentBalance := availableBalance - payment
+			fmt.Println("Your current balance is:", currentBalance)
 
 			//Formula for current balance in the math formula folder/file
 			// func CurrentBalance(availablebal float64, payment float64) (float64, error) {
@@ -88,22 +94,21 @@ func main() {
 			// 	}
 			// 	current_bal := availablebal - payment
 			// 	return current_bal, nil
-			 currentBalance, _ := mathformula.CurrentBalance(3000.10, payment)
-				
-			 
+
 			fmt.Println("Enter reference: ")
 			fmt.Scan(&reference)
-			//initializing transfer
-			//currentBalance -= payment
-			fmt.Println("Your current balance is:", currentBalance)
 
-			fmt.Println("Payment for GHS", payment, "to", number, "with Transaction ID:", rand.Intn(1000000000055555), "Current Balance:", currentBalance, "Reference:", reference)
+			// Generate a unique transaction Id
+			transctionId := rand.Intn(1000000000055555)
+
+
+
+			fmt.Println("Payment made for GHS", payment, "to", number, "Current Balance:",currentBalance,".", "Reference:",reference,".", "Transaction ID:",transctionId)
 
 			//} else if options == 2 {
 
-		
-		return
-			}
+			return
+		}
 	case 2:
 		//	MoMoPay & Pay Bill options
 		fmt.Println("MoMoPay & Pay Bill")
