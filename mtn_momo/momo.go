@@ -13,7 +13,7 @@ func main() {
 	var confirmed string
 	var payment float64
 	var reference string
-	var availableBalance float64
+	//var availableBalance float64
 	//var names string
 	//var transctionId rand.Intn
 	fmt.Println("Input short code (*170#)")
@@ -71,6 +71,15 @@ func main() {
 
 			fmt.Println("Enter amount: ")
 			fmt.Scan(&payment)
+			if err != nil || payment <= 0 {
+			fmt.Println("Invalid amount.")
+			return
+			
+
+			//if payment > availableBalance {
+			//fmt.Println("insufficient balance")
+				//	return
+			}
 
 			//Formula for current balance in the math formula folder/file
 			// func CurrentBalance(availablebal float64, payment float64) (float64, error) {
@@ -79,16 +88,9 @@ func main() {
 			// 	}
 			// 	current_bal := availablebal - payment
 			// 	return current_bal, nil
-			currentBalance, err := mathformula.CurrentBalance(3000.10, payment)
-			if err != nil || payment <= 0 {
-				fmt.Println("Invalid amount.")
-
-				if payment > availableBalance {
-					fmt.Println("insufficient balance")
-					return
-
-				}
-			}
+			 currentBalance, _ := mathformula.CurrentBalance(3000.10, payment)
+				
+			 
 			fmt.Println("Enter reference: ")
 			fmt.Scan(&reference)
 			//initializing transfer
@@ -99,9 +101,9 @@ func main() {
 
 			//} else if options == 2 {
 
-		}
+		
 		return
-
+			}
 	case 2:
 		//	MoMoPay & Pay Bill options
 		fmt.Println("MoMoPay & Pay Bill")
