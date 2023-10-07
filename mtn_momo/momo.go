@@ -13,7 +13,7 @@ func main() {
 	var confirmed string
 	var payment float64
 	var reference string
-	//var availableBalance float64
+	var availableBalance float64
 	//var names string
 	//var transctionId rand.Intn
 	fmt.Println("Input short code (*170#)")
@@ -74,11 +74,11 @@ func main() {
 			if err != nil || payment <= 0 {
 			fmt.Println("Invalid amount.")
 			return
-			
+			}
 
-			//if payment > availableBalance {
-			//fmt.Println("insufficient balance")
-				//	return
+			if payment > availableBalance {
+			fmt.Println("Insufficient balance")
+			return
 			}
 
 			//Formula for current balance in the math formula folder/file
