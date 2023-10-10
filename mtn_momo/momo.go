@@ -5,6 +5,16 @@ import (
 	//"margpak/mathformula"
 	"math/rand"
 )
+var recipientDatabase = map[string]string{
+	"0111111111": "Kofi Manu",
+	"0222222222": "Meg Phapha",
+	"0333333333": "Addisson Jade",
+	"0444444444": "John Mensah",
+	"0555555555": "Gina Nun",
+	"0666666666": "Addo Dankwa",
+	"0777777777": "Mama Cee",
+
+}
 
 func main() {
 	// Variable declarations
@@ -56,6 +66,13 @@ func main() {
 				fmt.Println("Invalid mobile number.")
 				return
 			}
+// Confirm name of recipent
+recipientName, true := recipientDatabase[number]
+if !true {
+	fmt.Println("Recipeint name not found. Please check number and try again")
+return
+}
+fmt.Println("Recipient:", recipientName)
 
 			fmt.Print("Confirm number: ")
 			_, err = fmt.Scan(&confirmed)
@@ -101,9 +118,7 @@ func main() {
 			// Generate a unique transaction Id
 			transctionId := rand.Intn(1000000000055555)
 
-
-
-			fmt.Println("Payment made for GHS", payment, "to", number, "Current Balance:",currentBalance,".", "Reference:",reference,".", "Transaction ID:",transctionId)
+			fmt.Println("Payment made for GHS", payment, "to", recipientName,"[",number,"]", "Current Balance:", currentBalance, ".", "Reference:", reference, ".", "Transaction ID:", transctionId)
 
 			//} else if options == 2 {
 
