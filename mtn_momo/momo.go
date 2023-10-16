@@ -2,18 +2,23 @@ package main
 
 import (
 	"fmt"
-	//"margpak/mathformula"
 	"math/rand"
 )
-var recipientDatabase = map[string]string{
-	"0111111111": "Kofi Manu",
-	"0222222222": "Meg Phapha",
-	"0333333333": "Addisson Jade",
-	"0444444444": "John Mensah",
-	"0555555555": "Gina Nun",
-	"0666666666": "Addo Dankwa",
-	"0777777777": "Mama Cee",
 
+type Profile struct {
+	MobileNumber string
+	Fullname     string
+	DateOfBirth  string
+}
+
+var profiles = []Profile{
+	{MobileNumber: "0111111111", Fullname: "Kofi Manu", DateOfBirth: "31/09/1995"},
+	{MobileNumber: "0222222222", Fullname: "Meg Phapha", DateOfBirth: "05/12/2003"},
+	{MobileNumber: "0333333333", Fullname: "Addisson Jade", DateOfBirth: "09/07/1993"},
+	{MobileNumber: "0444444444", Fullname: "John Mensah", DateOfBirth: "05/01/2005"},
+	{MobileNumber: "0555555555", Fullname: "Gina Nun", DateOfBirth: "06/04/2006"},
+	{MobileNumber: "0666666666", Fullname: "Addo Dankwa", DateOfBirth: "09/08/1990"},
+	{MobileNumber: "0777777777", Fullname: "Mama Cee", DateOfBirth: "05/02/2000"},
 }
 
 func main() {
@@ -24,15 +29,14 @@ func main() {
 	var payment float64
 	var availableBalance float64 = 4000.00
 	var reference string
-	//var names string
-	//var transctionId rand.Intn
+	var recipientName string
 
 	fmt.Println("Input short code (*170#)")
 	fmt.Println("1) Transfer Money")
 	fmt.Println("2) MoMoPay & Pay Bill")
 	fmt.Println("3) Airtime & Bundles")
-	fmt.Println("4) Allow Cash Out ")
-	fmt.Println("5) Finanacial Services")
+	fmt.Println("4) Allow Cash Out")
+	fmt.Println("5) Financial Services")
 	fmt.Println("6) My Wallet")
 	fmt.Println("7) MoMo Promo")
 
@@ -40,7 +44,6 @@ func main() {
 	fmt.Scan(&options)
 
 	switch options {
-
 	case 1:
 		// Transfer Money option
 		fmt.Println("Transfer Money")
@@ -60,70 +63,85 @@ func main() {
 		}
 		// Transfer money to MoMo user
 		if options == 1 {
-			fmt.Print("Enter mobile number(10 digits): ")
+			fmt.Print("Enter mobile number (10 digits): ")
 			_, err := fmt.Scan(&number)
 			if err != nil || len(number) != 10 {
 				fmt.Println("Invalid mobile number.")
 				return
 			}
-// Confirm name of recipent
-recipientName, true := recipientDatabase[number]
-if !true {
-	fmt.Println("Recipeint name not found. Please check number and try again")
-return
-}
-fmt.Println("Recipient:", recipientName)
-
-			fmt.Print("Confirm number: ")
-			_, err = fmt.Scan(&confirmed)
-			if err != nil {
-				fmt.Println(err)
+			// Confirm name of recipient
+			recipientName := recipientName
+			for _, profile := range profiles {
+				if profile.MobileNumber == number {
+					recipientName = profile.Fullname
+					break
+				}
+			}
+			if recipientName == "" {
+				fmt.Println("Recipient name not found. Please check the number and try again")
 				return
 			}
+			fmt.Println("Recipient:", recipientName)
 
-			// Check if confirmed number matches the entered mobile number
-			if number != confirmed {
-				fmt.Println("Number mismatched, try again.")
-				return
-			}
+		}
+		// Confirm name of recipent
+		//recipientName, true := recipientName[number]
+		//if !true {
+		//	fmt.Println("Recipeint name not found. Please check number and try again")
+		//return
+		//}
+		//fmt.Println("Recipient:", recipientName)
 
-			fmt.Println("Enter amount: ")
-			//currentBalance, err := mathformula.CurrentBalance(availableBalance, payment)
-			fmt.Scan(&payment)
-			if err != nil || payment <= 0 {
-				fmt.Println("Invalid amount.")
-				return
-			}
-
-			// Check if payment exceeds available balance
-			if payment > availableBalance {
-				fmt.Println("Insufficient balance")
-				return
-			}
-			// Deduct payment from available balance to know current balance
-			currentBalance := availableBalance - payment
-			fmt.Println("Your current balance is:", currentBalance)
-
-			//Formula for current balance in the math formula folder/file
-			// func CurrentBalance(availablebal float64, payment float64) (float64, error) {
-			// 	if payment > availablebal {
-			// 		return 0, fmt.Errorf("insufficient balance"
-			// 	}
-			// 	current_bal := availablebal - payment
-			// 	return current_bal, nil
-
-			fmt.Println("Enter reference: ")
-			fmt.Scan(&reference)
-
-			// Generate a unique transaction Id
-			transctionId := rand.Intn(1000000000055555)
-
-			fmt.Println("Payment made for GHS", payment, "to", recipientName,"[",number,"]", "Current Balance:", currentBalance, ".", "Reference:", reference, ".", "Transaction ID:", transctionId)
-
-			//} else if options == 2 {
-
+		fmt.Print("Confirm number: ")
+		_, err = fmt.Scan(&confirmed)
+		if err != nil {
+			fmt.Println(err)
 			return
 		}
+
+		// Check if confirmed number matches the entered mobile number
+		if number != confirmed {
+			fmt.Println("Number mismatched, try again.")
+			return
+		}
+
+		fmt.Println("Enter amount: ")
+		//currentBalance, err := mathformula.CurrentBalance(availableBalance, payment)
+		fmt.Scan(&payment)
+		if err != nil || payment <= 0 {
+			fmt.Println("Invalid amount.")
+			return
+		}
+
+		// Check if payment exceeds available balance
+		if payment > availableBalance {
+			fmt.Println("Insufficient balance")
+			return
+		}
+		// Deduct payment from available balance to know current balance
+		currentBalance := availableBalance - payment
+		fmt.Println("Your current balance is:", currentBalance)
+
+		//Formula for current balance in the math formula folder/file
+		// func CurrentBalance(availablebal float64, payment float64) (float64, error) {
+		// 	if payment > availablebal {
+		// 		return 0, fmt.Errorf("insufficient balance"
+		// 	}
+		// 	current_bal := availablebal - payment
+		// 	return current_bal, nil
+
+		fmt.Println("Enter reference: ")
+		fmt.Scan(&reference)
+
+		// Generate a unique transaction Id
+		transctionId := rand.Intn(1000000000055555)
+
+		fmt.Println("Payment made for GHS", payment, "to", recipientName,"[",number,"]", "Current Balance:", currentBalance,".", "Reference:", reference,".", "Transaction ID:", transctionId)
+
+		//} else if options == 2 {
+
+		return
+
 	case 2:
 		//	MoMoPay & Pay Bill options
 		fmt.Println("MoMoPay & Pay Bill")
@@ -190,5 +208,4 @@ fmt.Println("Recipient:", recipientName)
 			return
 		}
 	}
-
 }
