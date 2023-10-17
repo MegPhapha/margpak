@@ -69,8 +69,21 @@ func main() {
 				fmt.Println("Invalid mobile number.")
 				return
 			}
+
+			fmt.Print("Confirm number: ")
+			_, err = fmt.Scan(&confirmed)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+
+			// Check if confirmed number matches the entered mobile number
+			if number != confirmed {
+				fmt.Println("Number mismatched, try again.")
+				return
+			}
+
 			// Confirm name of recipient
-			recipientName := recipientName
 			for _, profile := range profiles {
 				if profile.MobileNumber == number {
 					recipientName = profile.Fullname
@@ -82,61 +95,45 @@ func main() {
 				return
 			}
 			fmt.Println("Recipient:", recipientName)
-
 		}
-		// Confirm name of recipent
-		//recipientName, true := recipientName[number]
-		//if !true {
-		//	fmt.Println("Recipeint name not found. Please check number and try again")
-		//return
-		//}
-		//fmt.Println("Recipient:", recipientName)
-
-		fmt.Print("Confirm number: ")
-		_, err = fmt.Scan(&confirmed)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-
-		// Check if confirmed number matches the entered mobile number
-		if number != confirmed {
-			fmt.Println("Number mismatched, try again.")
-			return
-		}
+		
 
 		fmt.Println("Enter amount: ")
-		//currentBalance, err := mathformula.CurrentBalance(availableBalance, payment)
 		fmt.Scan(&payment)
 		if err != nil || payment <= 0 {
 			fmt.Println("Invalid amount.")
 			return
 		}
 
-		// Check if payment exceeds available balance
-		if payment > availableBalance {
-			fmt.Println("Insufficient balance")
-			return
-		}
-		// Deduct payment from available balance to know current balance
-		currentBalance := availableBalance - payment
-		fmt.Println("Your current balance is:", currentBalance)
-
-		//Formula for current balance in the math formula folder/file
-		// func CurrentBalance(availablebal float64, payment float64) (float64, error) {
-		// 	if payment > availablebal {
-		// 		return 0, fmt.Errorf("insufficient balance"
-		// 	}
-		// 	current_bal := availablebal - payment
-		// 	return current_bal, nil
-
 		fmt.Println("Enter reference: ")
 		fmt.Scan(&reference)
+		
+		// calculate fee charged
+		fee := payment * 0.015
 
+		// Calculate e-levy amount(1% of payment amount)
+		levy := payment * 0.01
+
+		// Check if payment + e-levy exceeds available balance
+
+		if payment+ fee +levy > availableBalance {
+			fmt.Println("Your balance is insufficient")
+			return
+		}
+
+		// Deduct payment + e-levy from available balance to know current balance
+		currentBalance := availableBalance - payment -fee - levy
+
+		total := payment + fee + levy 
+		fmt.Println("Transfer to", recipientName,"[",number,"]","for GHS",payment,
+		 "with Reference:",reference,". Fee is GHS",fee, "Tax amount is GHS",levy,". Total amount is GHS",total)
+
+		
 		// Generate a unique transaction Id
 		transctionId := rand.Intn(1000000000055555)
 
-		fmt.Println("Payment made for GHS", payment, "to", recipientName,"[",number,"]", "Current Balance:", currentBalance,".", "Reference:", reference,".", "Transaction ID:", transctionId)
+		fmt.Println("Payment made for GHS",payment, "to", recipientName,"[",number,"]", "Current Balance:",currentBalance, ".",
+		 "Reference:",reference,".", "Transaction ID:", transctionId,"Fee charged: GHS",fee, "Tax charged:",levy)
 
 		//} else if options == 2 {
 
