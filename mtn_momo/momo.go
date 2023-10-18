@@ -30,6 +30,7 @@ func main() {
 	var availableBalance float64 = 4000.00
 	var reference string
 	var recipientName string
+	var pinCode int
 
 	fmt.Println("Input short code (*170#)")
 	fmt.Println("1) Transfer Money")
@@ -120,6 +121,7 @@ func main() {
 			fmt.Println("Your balance is insufficient")
 			return
 		}
+		
 
 		// Deduct payment + e-levy from available balance to know current balance
 		currentBalance := availableBalance - payment -fee - levy
@@ -128,12 +130,25 @@ func main() {
 		fmt.Println("Transfer to", recipientName,"[",number,"]","for GHS",payment,
 		 "with Reference:",reference,". Fee is GHS",fee, "Tax amount is GHS",levy,". Total amount is GHS",total)
 
+
+		 // Enter pincode to confirm/approve payment
+		 fmt.Println("Enter pin code")
+		 fmt.Scan(&pinCode)
+		 if pinCode != 9393{ 
+		 fmt.Println("Wrong pin, please try again")
+		 return}
 		
+
+
 		// Generate a unique transaction Id
 		transctionId := rand.Intn(1000000000055555)
 
 		fmt.Println("Payment made for GHS",payment, "to", recipientName,"[",number,"]", "Current Balance:",currentBalance, ".",
-		 "Reference:",reference,".", "Transaction ID:", transctionId,"Fee charged: GHS",fee, "Tax charged:",levy)
+		 "Reference:",reference,".", "Transaction ID:", transctionId,"Fee charged: GHS",fee, "Tax charged GHS:",levy)
+
+		
+
+
 
 		//} else if options == 2 {
 
