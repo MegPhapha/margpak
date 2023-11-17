@@ -23,6 +23,7 @@ var profiles = []Profile{
 
 func main() {
 	// Variable declarations
+	var code string
 	var options int
 	var number string
 	var confirmed string
@@ -31,8 +32,18 @@ func main() {
 	var reference string
 	var recipientName string
 	var pinCode int
+	var counter int
 
 	fmt.Println("Input short code (*170#)")
+	fmt.Scanln(&code)
+
+	if code != "*170#"{ 
+		fmt.Println("Wrong code, please try again")
+	}
+
+
+
+
 	fmt.Println("1) Transfer Money")
 	fmt.Println("2) MoMoPay & Pay Bill")
 	fmt.Println("3) Airtime & Bundles")
@@ -40,6 +51,7 @@ func main() {
 	fmt.Println("5) Financial Services")
 	fmt.Println("6) My Wallet")
 	fmt.Println("7) MoMo Promo")
+	fmt.Println("0) Exit")
 
 	fmt.Print("Enter options: ")
 	fmt.Scan(&options)
@@ -64,25 +76,32 @@ func main() {
 		}
 		// Transfer money to MoMo user
 		if options == 1 {
+			//using for loop to enter a valid mobile number
+			for { 
 			fmt.Print("Enter mobile number (10 digits): ")
 			_, err := fmt.Scan(&number)
 			if err != nil || len(number) != 10 {
-				fmt.Println("Invalid mobile number.")
-				return
+				fmt.Println("Invalid mobile number.Please enter a 10 digit mobile number")
+				 } else {
+					break // loop breaks when a valid mobile number is entered
+				 }
 			}
 
 			fmt.Print("Confirm number: ")
+			for { 
 			_, err = fmt.Scan(&confirmed)
 			if err != nil {
 				fmt.Println(err)
-				return
+				
 			}
-
+		
 			// Check if confirmed number matches the entered mobile number
 			if number != confirmed {
 				fmt.Println("Number mismatched, try again.")
-				return
+				 } else { 
+					break
 			}
+		}
 
 			// Confirm name of recipient
 			for _, profile := range profiles {
@@ -100,15 +119,15 @@ func main() {
 		
 
 		fmt.Println("Enter amount: ")
-		fmt.Scan(&payment)
+		for {
+		 fmt.Scan(&payment)
 		if err != nil || payment <= 0 {
-			fmt.Println("Invalid amount.")
-			return
+			fmt.Println("Please enter a valid amount.")
+			 }else{
+				break
+			 }
 		}
 
-		fmt.Println("Enter reference: ")
-		fmt.Scan(&reference)
-		
 		// calculate fee charged
 		fee := payment * 0.015
 
@@ -126,33 +145,48 @@ func main() {
 		// Deduct payment + e-levy from available balance to know current balance
 		currentBalance := availableBalance - payment -fee - levy
 
+		fmt.Println("Enter reference: ")
+		fmt.Scan(&reference)
+
 		total := payment + fee + levy 
 		fmt.Println("Transfer to", recipientName,"[",number,"]","for GHS",payment,
 		 "with Reference:",reference,". Fee is GHS",fee, "Tax amount is GHS",levy,". Total amount is GHS",total)
 
 
 		 // Enter pincode to confirm/approve payment
+		 //pin code is 9393
+for { 
 		 fmt.Println("Enter pin code")
 		 fmt.Scan(&pinCode)
 		 if pinCode != 9393{ 
-		 fmt.Println("Wrong pin, please try again")
-		 return}
-		
+			fmt.Println("Wrong pin, please try again")
+		 
+counter++
+if counter >= 3{ 
+		fmt.Println("Your account has been temporarily blocked due to too many failed attempts")
+		return
+}
 
-
+		 }else{
+			// Reset failed pin attempts upon successful entry
+			counter =0
+			break
+		 } }
+	
 		// Generate a unique transaction Id
 		transctionId := rand.Intn(1000000000055555)
 
 		fmt.Println("Payment made for GHS",payment, "to", recipientName,"[",number,"]", "Current Balance:",currentBalance, ".",
 		 "Reference:",reference,".", "Transaction ID:", transctionId,"Fee charged: GHS",fee, "Tax charged GHS:",levy)
+return
+		
+	
+	
+
+	//	} else if options == 2 {
 
 		
-
-
-
-		//} else if options == 2 {
-
-		return
+		
 
 	case 2:
 		//	MoMoPay & Pay Bill options
@@ -219,5 +253,5 @@ func main() {
 
 			return
 		}
-	}
-}
+	} }
+
