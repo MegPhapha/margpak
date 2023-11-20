@@ -34,11 +34,30 @@ func main() {
 	var pinCode int
 	var counter int
 
-	fmt.Println("Input short code (*170#)")
-	fmt.Scanln(&code)
+//constants declaration
+const correctPinCode = 9393
+const maxFailedAttempts = 3
 
-	if code != "*170#"{ 
-		fmt.Println("Wrong code, please try again")
+
+fmt.Println("Input short code(*124#)")
+fmt.Scanln(&code)
+
+if code != "*124#"  { 
+	fmt.Println("Invalid code, please try again.")
+	return
+}
+
+amount := rand.Intn(1000)
+fmt.Println("Your a/c balance is Ghc",amount)
+
+
+
+fmt.Println("Input short code(*170#)")
+fmt.Scanln(&code)
+
+	if code != "*170#" { 
+		fmt.Println("Invalid code, please try again.")
+		return
 	}
 
 
@@ -158,11 +177,11 @@ func main() {
 for { 
 		 fmt.Println("Enter pin code")
 		 fmt.Scan(&pinCode)
-		 if pinCode != 9393{ 
-			fmt.Println("Wrong pin, please try again")
-		 
-counter++
-if counter >= 3{ 
+		 if pinCode != correctPinCode{ 
+			fmt.Println("incorrect pin, please try again")
+		counter++
+
+if counter >= maxFailedAttempts{ 
 		fmt.Println("Your account has been temporarily blocked due to too many failed attempts")
 		return
 }
@@ -174,10 +193,10 @@ if counter >= 3{
 		 } }
 	
 		// Generate a unique transaction Id
-		transctionId := rand.Intn(1000000000055555)
+		transactionId := rand.Intn(1000000000055555)
 
 		fmt.Println("Payment made for GHS",payment, "to", recipientName,"[",number,"]", "Current Balance:",currentBalance, ".",
-		 "Reference:",reference,".", "Transaction ID:", transctionId,"Fee charged: GHS",fee, "Tax charged GHS:",levy)
+		 "Reference:",reference,".", "Transaction ID:", transactionId,"Fee charged: GHS",fee, "Tax charged GHS:",levy)
 return
 		
 	
